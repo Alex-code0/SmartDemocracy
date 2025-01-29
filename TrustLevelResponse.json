@@ -1,0 +1,71 @@
+{
+    "trustLevel": 88,
+    "trustLevelType": "on demand",
+    "trustLevelComponent": {
+      "version": "2.0",
+      "trustLevelComponents": [
+        {
+          "type": "author",
+          "score": 1,
+          "weight": 0.5,
+          "meta": {
+            "authorPseudo": false,
+            "authorName": "Luminița Cauliuc"
+          }
+        },
+        {
+          "type": "entity",
+          "score": 0.847,
+          "weight": 2,
+          "meta": {
+            "persOrgCnt": 26,
+            "totalEntCnt": 133,
+            "dateTimeCnt": 3,
+            "locCnt": 104
+          }
+        },
+        {
+          "type": "source",
+          "score": 1,
+          "weight": 1,
+          "meta": {
+            "owner": "SPP",
+            "feedTypeScore": 1,
+            "feedType": "newspaper",
+            "ownerScore": 1
+          }
+        },
+        {
+          "type": "sentiment",
+          "score": 0.5,
+          "weight": 0.25,
+          "meta": {
+            "sentimentLabel": "Negative",
+            "sentimentPercent": 0
+          }
+        },
+        {
+          "type": "noclickbait",
+          "score": 0.917441725730896,
+          "weight": 0.247674822807312,
+          "meta": {
+            "signals": {
+              "bodySentiment": "neg",
+              "titleChars": 123,
+              "titleCaps": 11,
+              "titlePunctuation": 4,
+              "titleNumbers": 2,
+              "contextSetting": 0.845,
+              "titleSentiment": "neu",
+              "bodyEntityCnt": 155,
+              "titleEntityCnt": 2,
+              "entityMatch": 1,
+              "baitPhraseCnt": 0
+            },
+            "isClickbait": false
+          }
+        }
+      ]
+    },
+    "trustLevelMessage": "We found this article's author (Luminița Cauliuc).\nThis article's publisher has been verified. Type: 'newspaper'.\nThis article has good (84.70) context setting (who/when/where).\nThis article has an overall Negative sentiment (subjective).\nThis article has a 8% chance of being clickbait.\nThis article's Content Quality Score is calculated using the metrics above.\nPatient Zero's Content Quality Score is: 61%.\n"
+  }
