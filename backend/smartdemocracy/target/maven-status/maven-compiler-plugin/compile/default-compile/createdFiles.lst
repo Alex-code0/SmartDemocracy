@@ -1,6 +1,6 @@
-com\smartdemocracy\App.class
-com\smartdemocracy\models\Article.class
 com\smartdemocracy\configurations\DatabaseConfig.class
 com\smartdemocracy\repositories\ArticleRepository.class
 com\smartdemocracy\configurations\WebConfig.class
+com\smartdemocracy\App.class
+com\smartdemocracy\models\Article.class
 com\smartdemocracy\controllers\GraphController.class
