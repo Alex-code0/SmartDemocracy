@@ -27,14 +27,10 @@ public class GraphController {
     @Autowired
     private ArticleRepository articleRepository;
     
-    private String BASE_URL = "https://app.trustservista.com/api";
-    private String API_KEY = "d4f388d353b44266aa075e2c5cd2b48b";
-    private String GRAPH_URL = "/rest/v2/graph";
-    
-    @GetMapping("/graph")
+    @GetMapping("/articleInfo")
     public ResponseEntity<?> graphApi(@RequestParam("articleUrl") String articleUrl) {
         try {
-            String graphRequestBody = """
+            String requestBody = """
                 {
                     "content": "EMPTY",
                     "contentUri": "%s",
@@ -49,7 +45,7 @@ public class GraphController {
                 .header("Accept", "application/json")
                 .header("X-TRUS-API-Key", API_KEY)
                 .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(graphRequestBody))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
             HttpResponse<String> graphResponse = client.send(graphRequest, HttpResponse.BodyHandlers.ofString());
@@ -64,16 +60,7 @@ public class GraphController {
                     JsonNode articleGraphNode = node.path("articleGraphNodes");
                     if(articleGraphNode.isArray() && articleGraphNode.size() > 0) {
                         for(JsonNode articleNode : articleGraphNode) {
-                            Article newArticle = new Article();
-                            newArticle.setArticleId(articleNode.get("id").asText());
-                            newArticle.setUrl(articleNode.get("url").asText());
-                            newArticle.setTitle(articleNode.get("title").asText());
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                            newArticle.setPublishTime(LocalDateTime.parse(articleNode.get("publishTime").asText(), formatter));
-                            newArticle.setTrustLevel(0.0f);
-                            newArticle.setSource(articleNode.get("source").asText());
-                            newArticle.setDistance((float)articleNode.get("distance").asDouble());
-                            articleRepository.save(newArticle);
+                            //save the article nodes to database
                         }
                         return ResponseEntity.ok("All articles saved!");
                     }

@@ -6,7 +6,7 @@ const Home = () => {
 
     const handleUrlChange = (e) => {setArticleUrl(e.target.value)}
 
-    const handleArticleUrl = async (e) => {
+    const handleArticleValidation = async (e) => {
         e.preventDefault()
 
         try {
@@ -22,9 +22,9 @@ const Home = () => {
 
   return (
     <div>
-      <form action="">
-        <input type="text" placeholder="Article url" onChange={handleUrlChange}></input>
-        <button type="submit"></button>
+      <form onSubmit={handleArticleValidation}>
+        <input type="text" placeholder="Article url" value={articleUrl} onChange={handleUrlChange} required />
+        <button type="submit">Validate article</button>
       </form>
     </div>
   )

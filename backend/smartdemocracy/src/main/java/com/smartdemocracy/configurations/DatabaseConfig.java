@@ -15,18 +15,16 @@ import java.util.Properties;
 @Configuration
 @EnableJpaRepositories(basePackages = "com.smartdemocracy.repositories")
 public class DatabaseConfig {
-
+    
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
         em.setPackagesToScan("com.smartdemocracy.models");
         
-        // Specify the JPA vendor adapter
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         
-        // Optionally set JPA properties
         em.setJpaProperties(hibernateProperties());
         
         return em;
