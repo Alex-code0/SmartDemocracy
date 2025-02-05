@@ -42,22 +42,38 @@ public class GraphController {
     private SentimentService sentimentService;
     
     @GetMapping("/articleInfo")
-    public ResponseEntity<?> fetchArticleInfo(@RequestParam("articleUrl") String articleUrl) {
-        try {
-            JsonNode iptcJson = iptcService.fetchIptcData(articleUrl);
-            JsonNode clickbaitJson = clickbaitService.fetchClickbaitData(articleUrl);
-            JsonNode metadataJson = metadataService.fetchMetadata(articleUrl);
-            JsonNode p0Json = p0Service.fetchP0Data(articleUrl);
-            JsonNode sentimentJson = sentimentService.fetchSentimentData(articleUrl);
-            JsonNode trustLevelJson = trustlevelService.fetchTrustlevelData(articleUrl);
+public ResponseEntity<?> fetchArticleInfo(@RequestParam("articleUrl") String articleUrl) {
+    try {
+        JsonNode iptcJson = iptcService.fetchIptcData(articleUrl);
+        JsonNode clickbaitJson = clickbaitService.fetchClickbaitData(articleUrl);
+        JsonNode metadataJson = metadataService.fetchMetadata(articleUrl);
+        JsonNode p0Json = p0Service.fetchP0Data(articleUrl);
+        JsonNode sentimentJson = sentimentService.fetchSentimentData(articleUrl);
+        JsonNode trustLevelJson = trustlevelService.fetchTrustlevelData(articleUrl);
 
-            String iptc = iptcJson.get("iptc").asText();
-            String trustLevel = trustLevelJson.get("trustLevel").asText();
+        double highestScore = 0.0;
+        JsonNode classifyNode = iptcJson.path("classify");
+        if (!classifyNode.isMissingNode() && classifyNode.has("classes")) {
+            JsonNode classes = classifyNode.get("classes");
+            for (JsonNode child : classes) {
+                double score = child.get("score").asDouble();
+                if (score > highestScore) {
+                    highestScore = score;
+                }
+            }
+        }
 
-            Map<String, String> articleInfo = new HashMap<>();
-            articleInfo.put("trustLevel", trustLevel);
+        String clickbait = clickbaitJson.path("clickbaitScore").asText();
+        String trustLevel = trustLevelJson.path("trustLevel").asText();
+        String sentiment = sentimentJson.path("confidence").asText();
 
-            return ResponseEntity.ok(articleInfo);
+        Map<String, String> articleInfo = new HashMap<>();
+        articleInfo.put("iptc", String.valueOf(highestScore));
+        articleInfo.put("clickbait", clickbait);
+        articleInfo.put("sentiment", sentiment);
+        articleInfo.put("trustLevel", trustLevel);
+
+        return ResponseEntity.ok(articleInfo);
         } catch(Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("Error fetching article information: " + e.getMessage());
